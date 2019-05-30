@@ -1,0 +1,100 @@
+version: "3"
+services:
+    web:
+        image: nginx:mainline-alpine
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ${WWW_ROOT}:/var/www/html:cached
+            - ./conf/nginx/:/etc/nginx/conf.d/
+            - certs-vol:/certs:ro
+        depends_on:
+            - phpmyadmin
+        environment:
+            - HOST_NAME=${HOST_NAME}
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/templates/server_name.template > /etc/nginx/conf.d/server_name.active && nginx -g 'daemon off;'"
+        networks:
+            - internal-network
+        restart: always
+
+    php:
+        build: ./Dockerfiles/php7fpm
+        volumes:
+            - ${WWW_ROOT}:/var/www/html:cached
+            - ./conf/php/conf.ini:/usr/local/etc/php/conf.d/conf.ini
+        networks:
+            - internal-network
+        environment:
+            - TZ=${TZ}
+        restart: always
+
+    db:
+        image: mariadb:10.3
+        restart: always
+        volumes:
+             - db-vol:/var/lib/mysql:cached
+             - ../dbbackup:/dbbackup:cached
+             - ./data/db:/db
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_BACKUP_PASSWORD: ${MYSQL_BACKUP_PASSWORD}
+            MYSQL_BACKUP_USER: ${MYSQL_BACKUP_USER}
+        networks:
+            - internal-network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            - PMA_HOST=db
+            - PMA_ABSOLUTE_URI=https://${PMA_HOST}/pma/
+        restart: always
+        depends_on:
+            - db
+        networks:
+            - internal-network
+    
+    redis:
+        image: redis:alpine
+        restart: always
+        volumes:
+             - redis-vol:/data/
+        networks:
+            - internal-network
+    
+    acme:
+        build: ./Dockerfiles/acme
+        volumes:
+            - certs-vol:/certs
+            - ./Dockerfiles/acme/run.sh:/run.sh
+            - ./Dockerfiles/acme/updatecert:/etc/periodic/daily/updatecert
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ${WWW_ROOT}:/var/www:cached
+            - ./Dockerfiles/acme/ssl-example:/dummyssl
+        restart: always
+        entrypoint: ""
+        command: /bin/sh -c 'chmod +x /run.sh && chmod 0744 /etc/periodic/daily/updatecert && crond -f'
+        environment:
+            - HOST_NAME=${HOST_NAME}    # used for self signed certificate
+            - EMAIL=${EMAIL}
+            - SELF_SIGNED=${SELF_SIGNED}
+            - LETSENCRYPT=${LETSENCRYPT}
+            - TZ=${TZ}
+            - DOCKER_API_VERSION=${DOCKER_API_VERSION}
+        networks:
+            - internal-network
+    
+networks:
+    internal-network:
+        driver: bridge
+        
+volumes:
+    redis-vol:
+    certs-vol:
+    db-vol:
+    
+    
