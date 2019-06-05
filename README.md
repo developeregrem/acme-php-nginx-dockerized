@@ -37,7 +37,9 @@ Once this is done the acme container will run a daily cron job and check whether
 ```
  enter root password defined in `.env` file and execute the following SQL statement by replacing `<backupuser>` and `<pw>` with the values from your `.env` file:
  
- ```GRANT LOCK TABLES, SELECT ON *.* TO '<backupuser>'@'%' IDENTIFIED BY '<pw>';```
+```
+    GRANT LOCK TABLES, SELECT ON *.* TO '<backupuser>'@'%' IDENTIFIED BY '<pw>';
+```
  
  5. Test your setup by e.g. creating an `info.php` file with the following content
  
@@ -47,6 +49,7 @@ Once this is done the acme container will run a daily cron job and check whether
 
  and place this file in your www root folder (defined in `.env` file).
  Request this file with a browser: `https://yourdomain.tld/info.php`
+ PHPMyAdmin is available under `/pma/`.
  
 ## DB Backups
  When you want to perform automatic database backup you can use the script `backup-db.sh` from this repo.
