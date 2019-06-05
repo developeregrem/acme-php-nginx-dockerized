@@ -22,11 +22,9 @@ The web server and php config contains some security best-practices already (e.g
 ```
 Now, all containers should be up and running.
 
- 3. Afterwards, the SSL certificate needs to be generated:
+ 3. Afterwards, the SSL certificate needs to be generated. Run the following command:
 ```
-     docker-compose exec acme /bin/sh
-     ./run.sh
-     press Ctrl + d to exit the container and return to your host shell
+     docker-compose exec acme /bin/sh -c "./run.sh"
 ```
 Once this is done the acme container will run a daily cron job and check whether the certificate needs to be automatically renewed.
  
@@ -34,7 +32,7 @@ Once this is done the acme container will run a daily cron job and check whether
  
  4. (optional) If you want to perform database backups periodically, I recommend creating a separate db user for this task:
 ```
-    docker-compose exec db/bin/sh
+    docker-compose exec db /bin/sh
     mysql -uroot -p
 ```
  enter root password defined in `.env` file and execute the following SQL statement by replacing `<backupuser>` and `<pw>` with the values from your `.env` file:
