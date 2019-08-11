@@ -15,6 +15,7 @@ The web server and php config contains some security best-practices already (e.g
 
  1. After cloning the repository to e.g. /opt/ edit the `.env` file to your needs. E.g. add your hostname and set strong passwords for database accounts. You can decide whether to obtain a letsencrypt certificate or generate a self-signed (e.g. when using it in your local network).
  2. Run the following commands:
+ > Remark: When using on an arm platform you need to remove phpmyadmin from the docker-compose file. Official phpmyadmin image is not available for arm yet.
 ```
     docker-compose pull
     docker-compose build --force-rm --pull
