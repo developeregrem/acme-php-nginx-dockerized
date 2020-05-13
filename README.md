@@ -16,7 +16,7 @@ The web server and php config contains some security best-practices already (e.g
  1. After cloning the repository to e.g. /opt/ edit the `.env` file to your needs. E.g. add your hostname and set strong passwords for database accounts. You can decide whether to obtain a letsencrypt certificate or generate a self-signed (e.g. when using it in your local network).
  ```
     cd /opt/
-    git clone https://github.com/developeregrem/acme-php-nginx-dockerized
+    git clone https://github.com/developeregrem/acme-php-nginx-dockerized && cd acme-php-nginx-dockerized
     cp .env.dist .env  
 ```
  2. Run the following commands:
