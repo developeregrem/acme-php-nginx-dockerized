@@ -6,7 +6,7 @@ This docker-compose setup will provide a full web stack containing:
  - [mariadb](https://hub.docker.com/_/mariadb) as database management system
  - [PHP 7.3-fpm-alpine](https://hub.docker.com/_/php/) with [composer](https://hub.docker.com/_/composer)
  - [redis](https://hub.docker.com/_/redis) as in-memory cache
- - ACME for letsencrypt or self-signed certificates (with automatic renew)
+ - ACME for letsencrypt or self-signed certificates (with automatic renew and support for [desec.io](https://desec.io/))
  - [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin)
  
 The web server and php config contains some security best-practices already (e.g. recommended ciphers by [bettercrypto.org](https://bettercrypto.org/#_nginx) and disabled version banners in response headers).
@@ -14,6 +14,11 @@ The web server and php config contains some security best-practices already (e.g
 ## First steps
 
  1. After cloning the repository to e.g. /opt/ edit the `.env` file to your needs. E.g. add your hostname and set strong passwords for database accounts. You can decide whether to obtain a letsencrypt certificate or generate a self-signed (e.g. when using it in your local network).
+ ```
+    cd /opt/
+    git clone https://github.com/developeregrem/acme-php-nginx-dockerized
+    cp .env.dist .env  
+```
  2. Run the following commands:
  > Remark: When using on an arm platform you need to remove phpmyadmin from the docker-compose file. Official phpmyadmin image is not available for arm yet.
 ```
