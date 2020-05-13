@@ -1,7 +1,7 @@
 # docker-compose build
 FROM php:7.4-fpm-alpine
 
-ENV PHPREDIS_VERSION 5.1.1
+ENV PHPREDIS_VERSION 5.2.2
 
 RUN apk add --no-cache \
         freetype-dev \
