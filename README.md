@@ -4,7 +4,7 @@ This docker-compose setup will provide a full web stack containing:
 
  - [nginx](https://hub.docker.com/_/nginx/) as web server or reverse proxy
  - [mariadb](https://hub.docker.com/_/mariadb) as database management system
- - [PHP 7.4-fpm-alpine](https://hub.docker.com/_/php/) with [composer](https://hub.docker.com/_/composer)
+ - [PHP 8.1-fpm-alpine](https://hub.docker.com/_/php/) with [composer](https://hub.docker.com/_/composer)
  - [redis](https://hub.docker.com/_/redis) as in-memory cache
  - ACME for letsencrypt or self-signed certificates (with automatic renew and support for [desec.io](https://desec.io/))
  - [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin)

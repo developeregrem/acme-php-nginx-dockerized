@@ -19,7 +19,7 @@ services:
         restart: always
 
     php:
-        build: ./Dockerfiles/php7fpm
+        build: ./Dockerfiles/php8fpm
         volumes:
             - ${WWW_ROOT}:/var/www/html:cached
             - ./conf/php/conf.ini:/usr/local/etc/php/conf.d/conf.ini
@@ -30,7 +30,7 @@ services:
         restart: always
 
     db:
-        image: mariadb:10.5
+        image: mariadb:10.8
         restart: always
         volumes:
              - db-vol:/var/lib/mysql:cached
