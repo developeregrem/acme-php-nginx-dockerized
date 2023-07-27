@@ -8,6 +8,10 @@ This docker-compose setup will provide a full web stack containing:
  - [redis](https://hub.docker.com/_/redis) as in-memory cache
  - ACME for letsencrypt or self-signed certificates (with automatic renew and support for [desec.io](https://desec.io/))
  - [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin)
+
+ Requires:
+  - [Docker](https://docs.docker.com/engine/install/)
+  - [docker compose plugin](https://docs.docker.com/compose/install/linux/)
  
 The web server and php config contains some security best-practices already (e.g. recommended ciphers by [bettercrypto.org](https://bettercrypto.org/#_nginx) and disabled version banners in response headers).
 
@@ -22,15 +26,15 @@ The web server and php config contains some security best-practices already (e.g
  2. Run the following commands:
  > Remark: When using on an arm platform you need to remove phpmyadmin from the docker-compose file. Official phpmyadmin image is not available for arm yet.
 ```
-    docker-compose pull
-    docker-compose build --force-rm --pull
-    docker-compose up --force-recreate -d  
+    docker compose pull
+    docker compose build --force-rm --pull
+    docker compose up --force-recreate -d  
 ```
 Now, all containers should be up and running.
 
  3. Afterwards, the SSL certificate needs to be generated. Run the following command:
 ```
-     docker-compose exec acme /bin/sh -c "./run.sh"
+     docker compose exec acme /bin/sh -c "./run.sh"
 ```
 Once this is done the acme container will run a daily cron job and check whether the certificate needs to be automatically renewed.
  
@@ -38,7 +42,7 @@ Once this is done the acme container will run a daily cron job and check whether
  
  4. (optional) If you want to perform database backups periodically, I recommend creating a separate db user for this task:
 ```
-    docker-compose exec db /bin/sh
+    docker compose exec db /bin/sh
     mysql -uroot -p
 ```
  enter root password defined in `.env` file and execute the following SQL statement by replacing `<backupuser>` and `<pw>` with the values from your `.env` file:
