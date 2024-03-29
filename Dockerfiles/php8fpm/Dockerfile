@@ -1,7 +1,7 @@
 # docker-compose build
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
-ENV PHPREDIS_VERSION 5.3.7
+ENV PHPREDIS_VERSION 6.0.2
 
 RUN mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
@@ -25,7 +25,7 @@ RUN apk add --no-cache --virtual .build-deps \
         autoconf \
         freetype-dev \
         libjpeg-turbo-dev \
-		libpng-dev \
+	libpng-dev \
         libxml2-dev \
         icu-dev \
         pcre-dev \
