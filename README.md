@@ -4,7 +4,7 @@ This docker-compose setup will provide a full web stack containing:
 
  - [nginx](https://hub.docker.com/_/nginx/) as web server or reverse proxy
  - [mariadb](https://hub.docker.com/_/mariadb) as database management system
- - [PHP 8.1-fpm-alpine](https://hub.docker.com/_/php/) with [composer](https://hub.docker.com/_/composer)
+ - [PHP 8.3-fpm-alpine](https://hub.docker.com/_/php/) with [composer](https://hub.docker.com/_/composer)
  - [redis](https://hub.docker.com/_/redis) as in-memory cache
  - ACME for letsencrypt or self-signed certificates (with automatic renew and support for [desec.io](https://desec.io/))
  - [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin)
@@ -43,7 +43,7 @@ Once this is done the acme container will run a daily cron job and check whether
  4. (optional) If you want to perform database backups periodically, I recommend creating a separate db user for this task:
 ```
     docker compose exec db /bin/sh
-    mysql -uroot -p
+    mariadb -uroot -p
 ```
  enter root password defined in `.env` file and execute the following SQL statement by replacing `<backupuser>` and `<pw>` with the values from your `.env` file:
  
@@ -73,4 +73,4 @@ It is also recommended to update the docker images on a regular base (nginx, php
 
 ## PHP Modules
 The PHP Dockerfile has some additional modules already installed. The current PHP image can be used, for example, when you use compose to manage your php dependencies and you want to use redis as an in-memory data structure as a database cache or to store php sessions, e.g. in combination with a symfony 4 project.
-For a complete list of installed modules see the [Dockerfile](https://github.com/developeregrem/acme-php-nginx-dockerized/blob/master/Dockerfiles/php7fpm/Dockerfile).
+For a complete list of installed modules see the [Dockerfile](https://github.com/developeregrem/acme-php-nginx-dockerized/blob/master/Dockerfiles/php8fpm/Dockerfile).
